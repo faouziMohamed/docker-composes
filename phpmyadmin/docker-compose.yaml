@@ -1,0 +1,36 @@
+version: '3.7'
+services:
+  mysqldb:
+    networks:
+      - myadmin-net
+    image: mysql:8.0
+    restart: 'unless-stopped'
+    container_name: mysql-myadmin
+    environment:
+      MYSQL_ROOT_PASSWORD: 'password'
+      MYSQL_ROOT_USER: 'root'
+      MYSQL_DATABASE: 'myadmin'
+      MYSQL_USER: 'faouzi'
+      MYSQL_PASSWORD: 'faouzi'
+    ports:
+      - '3306:3306'
+    volumes:
+      - my-admin:/var/lib/mysql
+  phpmyadmin:
+    networks:
+      - myadmin-net
+    depends_on:
+      - mysqldb
+    image: phpmyadmin:5-apache
+    restart: always
+    ports:
+      - 5000:80
+    environment:
+      - PMA_HOST=mysql-myadmin
+      - MYSQL_ROOT_PASSWORD='password'
+
+volumes:
+  my-admin:
+
+networks:
+  myadmin-net:

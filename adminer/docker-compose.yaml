@@ -1,0 +1,57 @@
+version: '3.7'
+
+services:
+  mysql-db:
+    image: mysql:8.0
+    restart: 'unless-stopped'
+    container_name: mysqlDb
+    environment:
+      MYSQL_ROOT_PASSWORD: 'password'
+      MYSQL_ROOT_USER: 'root'
+      MYSQL_DATABASE: 'student'
+      MYSQL_USER: 'faouzi'
+      MYSQL_PASSWORD: 'faouzi'
+    ports:
+      - '3306:3306'
+    networks:
+      - adminer-net
+    volumes:
+      - my-storage:/var/lib/mysql
+    cap_add:
+      - SYS_NICE
+
+  postgres-db:
+    image: postgres:14.0
+    restart: 'always'
+    user: 'postgres:postgres'
+    environment:
+      - PGDATA=/var/lib/postgresql/data/pgdata
+      - POSTGRES_USER=faouzi
+      - POSTGRES_PASSWORD=password
+      # - POSTGRES_DB=student
+    ports:
+      - 5432:5432
+    volumes:
+      - pg-volume:/var/lib/postgresql/data
+    networks:
+      - adminer-net
+
+  adminer:
+    depends_on:
+      - postgres-db
+      - mysql-db
+
+    image: adminer:4
+    restart: always
+    ports:
+      - 4040:8080
+    networks:
+      - adminer-net
+
+volumes:
+  pg-volume:
+
+  my-storage:
+
+networks:
+  adminer-net:

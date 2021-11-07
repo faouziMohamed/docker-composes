@@ -1,0 +1,23 @@
+version: '3.7'
+
+services:
+  postgresDb:
+    image: postgres:14.0
+    restart: always
+    user: 'postgres:postgres'
+    environment:
+      - PGDATA=/var/lib/postgresql/data/pgdata
+      - POSTGRES_USER=faouzi
+      - POSTGRES_PASSWORD=password
+      # - POSTGRES_DB=student
+    ports:
+      - 5432:5432
+    volumes:
+      - pg-volume:/var/lib/postgresql/data
+    networks:
+      - pg-net
+
+volumes:
+  pg-volume:
+networks:
+  pg-net:
