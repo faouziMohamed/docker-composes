@@ -5,13 +5,13 @@ services:
     restart: 'unless-stopped'
     container_name: mysqlDb
     environment:
-      MYSQL_ROOT_PASSWORD: 'password'
       MYSQL_ROOT_USER: 'root'
+      MYSQL_ROOT_PASSWORD: 'password'
       MYSQL_DATABASE: 'student'
       MYSQL_USER: 'faouzi'
       MYSQL_PASSWORD: 'faouzi'
     ports:
-      - '3306:3306'
+      - 3306:3306
     networks:
       - mydb-net
     volumes:

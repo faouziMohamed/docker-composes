@@ -3,21 +3,39 @@ version: '3.7'
 services:
   postgresDb:
     image: postgres:14.0
+    container_name: pgDb
     restart: always
     user: 'postgres:postgres'
     environment:
       - PGDATA=/var/lib/postgresql/data/pgdata
-      - POSTGRES_USER=faouzi
-      - POSTGRES_PASSWORD=password
-      # - POSTGRES_DB=student
+    #  - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=pass
+    # - POSTGRES_DB=student
     ports:
-      - 5432:5432
+      - "5432:5432"
     volumes:
       - pg-volume:/var/lib/postgresql/data
     networks:
       - pg-net
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    depends_on:
+      - postgresDb
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=postgres@email.pg
+      - PGADMIN_DEFAULT_PASSWORD=admin
+      - PGADMIN_LISTEN_PORT=5000
+      - PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION=True
+    ports:
+      - "5000:5000"
+    volumes:
+      - pgad-volume:/var/lib/pgadmin
+    networks:
+     - pg-net
 
 volumes:
   pg-volume:
+  pgad-volume:
 networks:
   pg-net:
