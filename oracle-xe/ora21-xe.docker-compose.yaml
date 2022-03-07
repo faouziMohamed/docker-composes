@@ -1,0 +1,35 @@
+version: '3.7'
+services:
+  oracle-21g:
+    image: gvenzl/oracle-xe:21-full
+    restart: 'unless-stopped'
+    container_name: oracle-21-xe
+    environment:
+      ORACLE_PASSWORD: oracle
+
+    ports:
+      - 1521:1522
+      
+    networks:
+      - ora11xe-net
+      
+    volumes:
+      - ora21xe-v:/opt/oracle/oradata
+  
+  # apex-ords:
+  #   image: container-registry.oracle.com/database/ords
+  #   restart: 'unless-stopped'
+  #   container_name: apex-ords
+
+  #   ports:
+  #     - 8181:8181
+  #   volumes:
+  #     - ~/APEX:/opt/oracle/variables
+  #   networks:
+  #     - ora11xe-net
+      
+volumes:
+  ora21xe-v:
+
+networks:
+  ora21xe-net:
