@@ -1,0 +1,21 @@
+﻿version: "3.9"
+services:
+  mssql-db:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: mssql-server
+    environment:
+      MSSQL_PID: "Express"
+      MSSQL_SA_PASSWORD: "P@ssw0rdComplexe"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    volumes:
+      - mssql-v:/var/opt/mssql
+    networks:
+      - db-network
+
+networks:
+  db-network:
+
+volumes:
+  mssql-v:
